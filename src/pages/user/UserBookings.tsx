@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import UserLayout from "@/components/layouts/UserLayout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -18,7 +19,7 @@ const UserBookings = () => {
   const { toast } = useToast();
   const [userBookings, setUserBookings] = useState<any[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
-
+  
   useEffect(() => {
     if (user && user.id) {
       console.log("Loading user bookings for user ID:", user.id);
@@ -27,15 +28,15 @@ const UserBookings = () => {
       setUserBookings(bookings);
     }
   }, [user, allBookings]);
-
+  
   // Manual refresh function
   const handleRefresh = () => {
     setIsRefreshing(true);
     console.log("Manually refreshing bookings...");
-
+    
     // First refresh bookings from localStorage
     refreshBookings();
-
+    
     // Short timeout to ensure the refresh has time to complete
     setTimeout(() => {
       if (user && user.id) {
@@ -49,7 +50,7 @@ const UserBookings = () => {
       });
     }, 500);
   };
-
+  
   const formatDate = (dateString: string) => {
     try {
       return format(new Date(dateString), "MMMM d, yyyy");
@@ -57,16 +58,16 @@ const UserBookings = () => {
       return dateString;
     }
   };
-
-  const upcomingBookings = userBookings.filter(booking =>
+  
+  const upcomingBookings = userBookings.filter(booking => 
     booking.status === "pending" || booking.status === "confirmed");
-  const pastBookings = userBookings.filter(booking =>
+  const pastBookings = userBookings.filter(booking => 
     booking.status === "completed" || booking.status === "cancelled");
 
   return (
     <UserLayout>
       <div className="container mx-auto px-4 py-8">
-        <motion.div
+        <motion.div 
           className="mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -77,9 +78,9 @@ const UserBookings = () => {
               <h1 className="text-3xl font-bold text-wedding-navy mb-2">Your Bookings</h1>
               <p className="text-gray-600">Manage all your wedding vendor bookings in one place</p>
             </div>
-            <Button
-              onClick={handleRefresh}
-              variant="outline"
+            <Button 
+              onClick={handleRefresh} 
+              variant="outline" 
               className="border-wedding-navy text-wedding-navy"
               disabled={isRefreshing}
             >
@@ -88,7 +89,7 @@ const UserBookings = () => {
             </Button>
           </div>
         </motion.div>
-
+        
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
           <div className="flex items-center mb-4 md:mb-0">
             <Button
@@ -106,20 +107,20 @@ const UserBookings = () => {
               Calendar View
             </Button>
           </div>
-
+          
           <Link to="/user/vendors">
             <Button className="bg-wedding-gold text-white hover:bg-wedding-gold/90">
               Book New Vendor
             </Button>
           </Link>
         </div>
-
+        
         <Tabs defaultValue="upcoming">
           <TabsList className="mb-6">
             <TabsTrigger value="upcoming">Upcoming Bookings</TabsTrigger>
             <TabsTrigger value="past">Past Bookings</TabsTrigger>
           </TabsList>
-
+          
           <TabsContent value="upcoming">
             {viewMode === 'list' ? (
               <div className="grid grid-cols-1 gap-6">
@@ -139,7 +140,7 @@ const UserBookings = () => {
                 ) : (
                   <>
                     {upcomingBookings.map((booking, index) => (
-                      <motion.div
+                      <motion.div 
                         key={booking.id}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -158,8 +159,8 @@ const UserBookings = () => {
                                   <div>
                                     <div className="flex items-center mb-2">
                                       <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
-                                        booking.status === "confirmed" ? "bg-green-100 text-green-800" :
-                                        booking.status === "pending" ? "bg-yellow-100 text-yellow-800" :
+                                        booking.status === "confirmed" ? "bg-green-100 text-green-800" : 
+                                        booking.status === "pending" ? "bg-yellow-100 text-yellow-800" : 
                                         "bg-blue-100 text-blue-800"
                                       }`}>
                                         {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
@@ -218,7 +219,7 @@ const UserBookings = () => {
               </Card>
             )}
           </TabsContent>
-
+          
           <TabsContent value="past">
             <div className="grid grid-cols-1 gap-6">
               {pastBookings.length === 0 ? (
@@ -232,7 +233,7 @@ const UserBookings = () => {
               ) : (
                 <>
                   {pastBookings.map((booking, index) => (
-                    <motion.div
+                    <motion.div 
                       key={booking.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}

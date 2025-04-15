@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -13,17 +14,17 @@ const UserRegister = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
   const { toast } = useToast();
-
+  
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     if (!name || !email || !password || !confirmPassword) {
       toast({
         variant: "destructive",
@@ -32,7 +33,7 @@ const UserRegister = () => {
       });
       return;
     }
-
+    
     if (password !== confirmPassword) {
       toast({
         variant: "destructive",
@@ -41,7 +42,7 @@ const UserRegister = () => {
       });
       return;
     }
-
+    
     if (!termsAccepted) {
       toast({
         variant: "destructive",
@@ -50,26 +51,26 @@ const UserRegister = () => {
       });
       return;
     }
-
+    
     setIsSubmitting(true);
-
+    
     const success = await register({
       email,
       password,
       name,
       type: 'user'
     });
-
+    
     setIsSubmitting(false);
-
+    
     if (success) {
       navigate('/user/dashboard');
     }
   };
-
+  
   return (
     <div className="flex min-h-screen bg-wedding-light">
-      <div className="hidden lg:block lg:w-1/2 bg-cover bg-center"
+      <div className="hidden lg:block lg:w-1/2 bg-cover bg-center" 
            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')" }}>
       </div>
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
@@ -81,7 +82,7 @@ const UserRegister = () => {
             </Link>
             <p className="text-gray-600 mt-2">Create your account to start planning your perfect wedding</p>
           </div>
-
+          
           <Card>
             <form onSubmit={handleRegister}>
               <CardHeader>
@@ -93,7 +94,7 @@ const UserRegister = () => {
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Full Name</Label>
-                  <Input
+                  <Input 
                     id="name"
                     placeholder="Your full name"
                     value={name}
@@ -101,10 +102,10 @@ const UserRegister = () => {
                     required
                   />
                 </div>
-
+                
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input
+                  <Input 
                     id="email"
                     type="email"
                     placeholder="your@email.com"
@@ -113,10 +114,10 @@ const UserRegister = () => {
                     required
                   />
                 </div>
-
+                
                 <div className="space-y-2">
                   <Label htmlFor="password">Password</Label>
-                  <Input
+                  <Input 
                     id="password"
                     type="password"
                     value={password}
@@ -124,10 +125,10 @@ const UserRegister = () => {
                     required
                   />
                 </div>
-
+                
                 <div className="space-y-2">
                   <Label htmlFor="confirm-password">Confirm Password</Label>
-                  <Input
+                  <Input 
                     id="confirm-password"
                     type="password"
                     value={confirmPassword}
@@ -135,10 +136,10 @@ const UserRegister = () => {
                     required
                   />
                 </div>
-
+                
                 <div className="flex items-start space-x-2">
-                  <Checkbox
-                    id="terms"
+                  <Checkbox 
+                    id="terms" 
                     checked={termsAccepted}
                     onCheckedChange={(checked) => setTermsAccepted(checked === true)}
                   />
@@ -148,7 +149,7 @@ const UserRegister = () => {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button
+                <Button 
                   type="submit"
                   className="w-full bg-wedding-gold hover:bg-wedding-gold/90"
                   disabled={isSubmitting}
@@ -158,7 +159,7 @@ const UserRegister = () => {
               </CardFooter>
             </form>
           </Card>
-
+          
           <div className="text-center mt-6">
             <p className="text-sm text-gray-600">
               Already have an account? <Link to="/user/login" className="text-wedding-gold hover:underline font-medium">Sign in</Link>

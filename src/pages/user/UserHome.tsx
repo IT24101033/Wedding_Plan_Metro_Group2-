@@ -1,3 +1,4 @@
+
 import UserLayout from "@/components/layouts/UserLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -17,7 +18,7 @@ const UserHome = () => {
       }
     }
   };
-
+  
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
@@ -80,7 +81,7 @@ const UserHome = () => {
       <section className="relative bg-wedding-blush pt-20 pb-32">
         <div className="wedding-container">
           <div className="max-w-3xl mx-auto text-center">
-            <motion.h1
+            <motion.h1 
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-wedding-navy mb-6"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -88,7 +89,7 @@ const UserHome = () => {
             >
               Your Perfect Wedding Starts Here
             </motion.h1>
-            <motion.p
+            <motion.p 
               className="text-xl text-gray-700 mb-10"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -96,7 +97,7 @@ const UserHome = () => {
             >
               Find and book the best vendors for your special day
             </motion.p>
-            <motion.div
+            <motion.div 
               className="flex flex-col sm:flex-row justify-center gap-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -117,11 +118,11 @@ const UserHome = () => {
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-16 bg-wedding-light" style={{ clipPath: "polygon(0 100%, 100% 100%, 100% 0, 0 100%)" }}></div>
       </section>
-
+      
       {/* Vendor Categories */}
       <section className="py-16 bg-wedding-light">
         <div className="wedding-container">
-          <motion.div
+          <motion.div 
             className="text-center mb-12"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -132,8 +133,8 @@ const UserHome = () => {
               From photographers to venues, find everything you need for your perfect day
             </p>
           </motion.div>
-
-          <motion.div
+          
+          <motion.div 
             className="grid grid-cols-2 md:grid-cols-3 gap-6"
             variants={containerVariants}
             initial="hidden"
@@ -157,11 +158,11 @@ const UserHome = () => {
           </motion.div>
         </div>
       </section>
-
+      
       {/* Featured Vendors */}
       <section className="py-16 bg-white">
         <div className="wedding-container">
-          <motion.div
+          <motion.div 
             className="text-center mb-12"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -172,8 +173,8 @@ const UserHome = () => {
               Our top-rated professionals to make your wedding unforgettable
             </p>
           </motion.div>
-
-          <motion.div
+          
+          <motion.div 
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
             variants={containerVariants}
             initial="hidden"
@@ -183,9 +184,9 @@ const UserHome = () => {
               <motion.div key={vendor.id} variants={itemVariants}>
                 <Card className="overflow-hidden hover:shadow-lg transition-all h-full">
                   <div className="aspect-w-3 aspect-h-2">
-                    <img
-                      src={vendor.image}
-                      alt={vendor.name}
+                    <img 
+                      src={vendor.image} 
+                      alt={vendor.name} 
                       className="w-full h-48 object-cover"
                     />
                   </div>
@@ -212,7 +213,7 @@ const UserHome = () => {
               </motion.div>
             ))}
           </motion.div>
-
+          
           <div className="text-center mt-12">
             <Link to="/user/vendors">
               <Button className="bg-wedding-gold text-white hover:bg-wedding-gold/90">
@@ -222,11 +223,11 @@ const UserHome = () => {
           </div>
         </div>
       </section>
-
+      
       {/* Testimonials */}
       <section className="py-16 bg-wedding-blush/50">
         <div className="wedding-container">
-          <motion.div
+          <motion.div 
             className="text-center mb-12"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -237,8 +238,8 @@ const UserHome = () => {
               Hear from couples who found their perfect vendors through our platform
             </p>
           </motion.div>
-
-          <motion.div
+          
+          <motion.div 
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
             variants={containerVariants}
             initial="hidden"
@@ -267,7 +268,7 @@ const UserHome = () => {
                 </CardContent>
               </Card>
             </motion.div>
-
+            
             <motion.div variants={itemVariants}>
               <Card className="h-full">
                 <CardContent className="p-6">
@@ -291,7 +292,7 @@ const UserHome = () => {
                 </CardContent>
               </Card>
             </motion.div>
-
+            
             <motion.div variants={itemVariants}>
               <Card className="h-full">
                 <CardContent className="p-6">
@@ -318,11 +319,11 @@ const UserHome = () => {
           </motion.div>
         </div>
       </section>
-
+      
       {/* CTA Section */}
       <section className="py-16 bg-wedding-navy text-white">
         <div className="wedding-container text-center">
-          <motion.h2
+          <motion.h2 
             className="text-3xl font-bold mb-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -330,7 +331,7 @@ const UserHome = () => {
           >
             Ready to Plan Your Dream Wedding?
           </motion.h2>
-          <motion.p
+          <motion.p 
             className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

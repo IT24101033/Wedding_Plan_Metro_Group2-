@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import UserLayout from "@/components/layouts/UserLayout";
@@ -22,7 +23,7 @@ const BookingForm = () => {
   const { toast } = useToast();
   const { addBooking } = useBookings();
   const { user } = useAuth();
-
+  
   // Form state
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [service, setService] = useState("");
@@ -33,7 +34,7 @@ const BookingForm = () => {
   const [specialRequests, setSpecialRequests] = useState("");
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  
   // Fill in form with user data if available
   useEffect(() => {
     if (user) {
@@ -43,7 +44,7 @@ const BookingForm = () => {
       setEmail(user.email || '');
     }
   }, [user]);
-
+  
   // Mock vendor data
   const vendor = {
     id: parseInt(id || "1"),
@@ -80,7 +81,7 @@ const BookingForm = () => {
       });
       return;
     }
-
+    
     if (step === 2 && (!firstName || !lastName || !email || !phone)) {
       toast({
         title: "Missing information",
@@ -89,7 +90,7 @@ const BookingForm = () => {
       });
       return;
     }
-
+    
     setStep(step + 1);
   };
 
@@ -100,22 +101,22 @@ const BookingForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
+    
     // Create booking
     const selectedServiceDetails = vendor.services.find(s => s.id === service);
     const price = selectedServiceDetails ? parseInt(selectedServiceDetails.price.replace(/[^0-9]/g, '') || '0') : 0;
-
+    
     // Ensure vendorId follows consistent format (always prefixed with "vendor")
     let vendorId = vendor.id.toString();
     if (!vendorId.startsWith('vendor')) {
-      vendorId = vendor${vendorId};
+      vendorId = `vendor${vendorId}`;
     }
-
-    console.log(Creating booking with vendorId: ${vendorId});
-
+    
+    console.log(`Creating booking with vendorId: ${vendorId}`);
+    
     const newBooking = {
       userId: user?.id || 'user1',
-      userName: ${firstName} ${lastName},
+      userName: `${firstName} ${lastName}`,
       vendorId: vendorId,
       vendorName: vendor.name,
       serviceName: selectedServiceDetails?.name || '',
@@ -126,31 +127,31 @@ const BookingForm = () => {
       paymentStatus: 'pending' as const,
       notes: specialRequests
     };
-
+    
     try {
       console.log("Creating booking with data:", newBooking);
-
+      
       // Add booking and redirect to payment
       const booking = addBooking(newBooking);
-
+      
       // Force local storage update for immediate consistency
       const existingBookings = JSON.parse(localStorage.getItem('wedding_app_bookings') || '[]');
       const updatedBookings = [...existingBookings, booking];
       localStorage.setItem('wedding_app_bookings', JSON.stringify(updatedBookings));
-
+      
       console.log("Booking created successfully:", booking);
       console.log("Updated localStorage with new booking");
-
+      
       setTimeout(() => {
         setIsSubmitting(false);
-
+        
         toast({
           title: "Booking submitted successfully!",
           description: "You can now proceed to payment.",
         });
-
+        
         // Redirect to payment page with the booking ID
-        navigate(/user/payment/${booking.id});
+        navigate(`/user/payment/${booking.id}`);
       }, 1500);
     } catch (error) {
       console.error("Error creating booking:", error);
@@ -162,7 +163,7 @@ const BookingForm = () => {
       });
     }
   };
-
+  
   const selectedService = vendor.services.find(s => s.id === service);
 
   return (
@@ -175,14 +176,14 @@ const BookingForm = () => {
             <span className="mx-2 text-gray-500">/</span>
             <Link to="/user/vendors" className="text-gray-500 hover:text-wedding-navy">Vendors</Link>
             <span className="mx-2 text-gray-500">/</span>
-            <Link to={/user/vendors/${id}} className="text-gray-500 hover:text-wedding-navy">{vendor.name}</Link>
+            <Link to={`/user/vendors/${id}`} className="text-gray-500 hover:text-wedding-navy">{vendor.name}</Link>
             <span className="mx-2 text-gray-500">/</span>
             <span className="text-wedding-navy">Book</span>
           </nav>
         </div>
 
         <div className="max-w-3xl mx-auto">
-          <motion.div
+          <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -190,29 +191,29 @@ const BookingForm = () => {
             <h1 className="text-3xl font-bold text-wedding-navy mb-2">Book {vendor.name}</h1>
             <p className="text-gray-600 mb-8">Complete the form below to book this vendor for your special day</p>
           </motion.div>
-
+          
           {/* Progress Indicator */}
           <div className="mb-8">
             <div className="flex justify-between relative">
               <div className="flex-1 h-1 bg-gray-200 absolute top-4 left-0 right-0 z-0"></div>
-              <div className={flex-1 h-1 absolute top-4 left-0 z-10 transition-all duration-300 ease-in-out bg-wedding-gold} style={{ width: ${(step - 1) * 50}% }}></div>
-
+              <div className={`flex-1 h-1 absolute top-4 left-0 z-10 transition-all duration-300 ease-in-out bg-wedding-gold`} style={{ width: `${(step - 1) * 50}%` }}></div>
+              
               <div className="flex flex-col items-center relative z-20">
-                <div className={w-8 h-8 rounded-full ${step >= 1 ? 'bg-wedding-gold text-white' : 'bg-gray-200 text-gray-400'} flex items-center justify-center mb-2}>
+                <div className={`w-8 h-8 rounded-full ${step >= 1 ? 'bg-wedding-gold text-white' : 'bg-gray-200 text-gray-400'} flex items-center justify-center mb-2`}>
                   1
                 </div>
                 <span className="text-sm font-medium">Service Selection</span>
               </div>
-
+              
               <div className="flex flex-col items-center relative z-20">
-                <div className={w-8 h-8 rounded-full ${step >= 2 ? 'bg-wedding-gold text-white' : 'bg-gray-200 text-gray-400'} flex items-center justify-center mb-2}>
+                <div className={`w-8 h-8 rounded-full ${step >= 2 ? 'bg-wedding-gold text-white' : 'bg-gray-200 text-gray-400'} flex items-center justify-center mb-2`}>
                   2
                 </div>
                 <span className="text-sm font-medium">Your Details</span>
               </div>
-
+              
               <div className="flex flex-col items-center relative z-20">
-                <div className={w-8 h-8 rounded-full ${step >= 3 ? 'bg-wedding-gold text-white' : 'bg-gray-200 text-gray-400'} flex items-center justify-center mb-2}>
+                <div className={`w-8 h-8 rounded-full ${step >= 3 ? 'bg-wedding-gold text-white' : 'bg-gray-200 text-gray-400'} flex items-center justify-center mb-2`}>
                   3
                 </div>
                 <span className="text-sm font-medium">Confirmation</span>
@@ -226,7 +227,7 @@ const BookingForm = () => {
               <form onSubmit={handleSubmit}>
                 {/* Step 1: Service Selection */}
                 {step === 1 && (
-                  <motion.div
+                  <motion.div 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -247,7 +248,7 @@ const BookingForm = () => {
                         </SelectContent>
                       </Select>
                     </div>
-
+                    
                     {service && (
                       <div className="bg-wedding-light p-4 rounded-lg">
                         <h3 className="font-semibold text-wedding-navy mb-2">{selectedService?.name}</h3>
@@ -255,7 +256,7 @@ const BookingForm = () => {
                         <p className="font-medium text-wedding-gold">{selectedService?.price}</p>
                       </div>
                     )}
-
+                    
                     <div className="space-y-2">
                       <Label>Select Wedding Date *</Label>
                       <Popover>
@@ -279,10 +280,10 @@ const BookingForm = () => {
                         </PopoverContent>
                       </Popover>
                     </div>
-
+                    
                     <div className="pt-4 flex justify-end">
-                      <Button
-                        type="button"
+                      <Button 
+                        type="button" 
                         onClick={handleNext}
                         className="bg-wedding-gold text-white hover:bg-wedding-gold/90"
                       >
@@ -291,10 +292,10 @@ const BookingForm = () => {
                     </div>
                   </motion.div>
                 )}
-
+                
                 {/* Step 2: Personal Details */}
                 {step === 2 && (
-                  <motion.div
+                  <motion.div 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -303,68 +304,68 @@ const BookingForm = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <Label htmlFor="firstName">First Name *</Label>
-                        <Input
-                          id="firstName"
-                          value={firstName}
-                          onChange={(e) => setFirstName(e.target.value)}
+                        <Input 
+                          id="firstName" 
+                          value={firstName} 
+                          onChange={(e) => setFirstName(e.target.value)} 
                           required
                         />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="lastName">Last Name *</Label>
-                        <Input
-                          id="lastName"
-                          value={lastName}
-                          onChange={(e) => setLastName(e.target.value)}
+                        <Input 
+                          id="lastName" 
+                          value={lastName} 
+                          onChange={(e) => setLastName(e.target.value)} 
                           required
                         />
                       </div>
                     </div>
-
+                    
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <Label htmlFor="email">Email Address *</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
+                        <Input 
+                          id="email" 
+                          type="email" 
+                          value={email} 
+                          onChange={(e) => setEmail(e.target.value)} 
                           required
                         />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="phone">Phone Number *</Label>
-                        <Input
-                          id="phone"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
+                        <Input 
+                          id="phone" 
+                          value={phone} 
+                          onChange={(e) => setPhone(e.target.value)} 
                           required
                         />
                       </div>
                     </div>
-
+                    
                     <div className="space-y-2">
                       <Label htmlFor="specialRequests">Special Requests or Notes</Label>
-                      <Textarea
-                        id="specialRequests"
-                        value={specialRequests}
+                      <Textarea 
+                        id="specialRequests" 
+                        value={specialRequests} 
                         onChange={(e) => setSpecialRequests(e.target.value)}
                         placeholder="Tell us about any special needs or requests you have for your wedding day"
                         rows={4}
                       />
                     </div>
-
+                    
                     <div className="pt-4 flex justify-between">
-                      <Button
-                        type="button"
-                        variant="outline"
+                      <Button 
+                        type="button" 
+                        variant="outline" 
                         onClick={handleBack}
                         className="border-wedding-navy text-wedding-navy"
                       >
                         Back
                       </Button>
-                      <Button
-                        type="button"
+                      <Button 
+                        type="button" 
                         onClick={handleNext}
                         className="bg-wedding-gold text-white hover:bg-wedding-gold/90"
                       >
@@ -373,10 +374,10 @@ const BookingForm = () => {
                     </div>
                   </motion.div>
                 )}
-
+                
                 {/* Step 3: Confirmation */}
                 {step === 3 && (
-                  <motion.div
+                  <motion.div 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -387,7 +388,7 @@ const BookingForm = () => {
                       <h2 className="text-2xl font-bold text-wedding-navy mb-2">Review Your Booking</h2>
                       <p className="text-gray-600">Please review the details below before confirming your booking</p>
                     </div>
-
+                    
                     <Card>
                       <CardHeader className="pb-2">
                         <CardTitle>Booking Summary</CardTitle>
@@ -414,7 +415,7 @@ const BookingForm = () => {
                         </dl>
                       </CardContent>
                     </Card>
-
+                    
                     <Card>
                       <CardHeader className="pb-2">
                         <CardTitle>Your Information</CardTitle>
@@ -443,17 +444,17 @@ const BookingForm = () => {
                         </dl>
                       </CardContent>
                     </Card>
-
+                    
                     <div className="pt-4 flex justify-between">
-                      <Button
-                        type="button"
-                        variant="outline"
+                      <Button 
+                        type="button" 
+                        variant="outline" 
                         onClick={handleBack}
                         className="border-wedding-navy text-wedding-navy"
                       >
                         Back
                       </Button>
-                      <Button
+                      <Button 
                         type="submit"
                         className="bg-wedding-gold text-white hover:bg-wedding-gold/90"
                         disabled={isSubmitting}
@@ -466,7 +467,7 @@ const BookingForm = () => {
               </form>
             </CardContent>
           </Card>
-
+          
           <div className="mt-8 text-center text-sm text-gray-500">
             <p>After submitting your booking request, the vendor will contact you to confirm availability and details.</p>
             <p className="mt-2">Need help? <a href="#" className="text-wedding-navy font-medium hover:underline">Contact our support team</a></p>

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import UserLayout from '@/components/layouts/UserLayout';
@@ -14,10 +15,10 @@ const PaymentPage = () => {
   const { id } = useParams();
   const { isAuthenticated, user } = useAuth();
   const { getBookingById, updateBooking } = useBookings();
-
+  
   // Get actual booking details if available
   const booking = getBookingById(id || 'booking1');
-
+  
   // Use real booking data if available, otherwise use mock data
   const bookingDetails = booking || {
     id: id || 'booking1',
@@ -53,7 +54,7 @@ const PaymentPage = () => {
             </CardHeader>
             <CardContent className="text-center">
               <p className="mb-6">You need to be logged in to complete your payment.</p>
-              <Link to="/user/login" state={{ from: /user/payment/${id} }}>
+              <Link to="/user/login" state={{ from: `/user/payment/${id}` }}>
                 <Button className="bg-wedding-navy">
                   <LogIn className="mr-2 h-4 w-4" /> Sign In
                 </Button>
@@ -75,7 +76,7 @@ const PaymentPage = () => {
           <h1 className="text-3xl font-bold text-wedding-navy">Complete Your Payment</h1>
           <p className="text-gray-600 mt-2">Please review your booking details and complete the payment</p>
         </div>
-
+        
         <div className="grid md:grid-cols-2 gap-8">
           <div>
             <div className="bg-white p-6 rounded-lg shadow-sm mb-6">
@@ -102,20 +103,20 @@ const PaymentPage = () => {
                   <span className="text-2xl font-bold text-wedding-navy">${bookingDetails.amount}</span>
                 </div>
               </div>
-
+              
               <div className="mt-6">
-                <VendorMessaging
-                  vendorId={booking?.vendorId || 'vendor1'}
-                  vendorName={booking?.vendorName || 'Elegant Moments Photography'}
+                <VendorMessaging 
+                  vendorId={booking?.vendorId || 'vendor1'} 
+                  vendorName={booking?.vendorName || 'Elegant Moments Photography'} 
                 />
               </div>
             </div>
           </div>
-
+          
           <div>
-            <PaymentGateway
-              amount={bookingDetails.amount}
-              description={Payment for ${bookingDetails.serviceName}}
+            <PaymentGateway 
+              amount={bookingDetails.amount} 
+              description={`Payment for ${bookingDetails.serviceName}`}
               vendorName={bookingDetails.vendorName}
               serviceName={bookingDetails.serviceName}
               bookingId={bookingDetails.id}

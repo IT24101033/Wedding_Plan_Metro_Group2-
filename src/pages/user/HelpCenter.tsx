@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import UserLayout from "@/components/layouts/UserLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -87,8 +88,8 @@ const HelpCenter = () => {
   // Filter FAQs based on search query
   const filterFaqs = (faqs: any[]) => {
     if (!searchQuery) return faqs;
-
-    return faqs.filter(faq =>
+    
+    return faqs.filter(faq => 
       faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
       faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -98,7 +99,7 @@ const HelpCenter = () => {
     <UserLayout>
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-wedding-navy mb-6">Help Center</h1>
-
+        
         {/* Search bar */}
         <Card className="mb-8">
           <CardContent className="pt-6">
@@ -106,7 +107,7 @@ const HelpCenter = () => {
               <h2 className="text-2xl font-semibold mb-2">How can we help you?</h2>
               <p className="text-gray-600">Search our knowledge base for answers to common questions</p>
             </div>
-
+            
             <div className="relative max-w-2xl mx-auto">
               <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
               <Input
@@ -122,7 +123,7 @@ const HelpCenter = () => {
             </div>
           </CardContent>
         </Card>
-
+        
         {/* Categories and FAQs */}
         <Tabs defaultValue="general" className="space-y-6">
           <TabsList className="grid grid-cols-2 md:grid-cols-5 gap-2">
@@ -147,7 +148,7 @@ const HelpCenter = () => {
               <span className="hidden md:inline">Support</span>
             </TabsTrigger>
           </TabsList>
-
+          
           <TabsContent value="general">
             <Card>
               <CardHeader>
@@ -156,7 +157,7 @@ const HelpCenter = () => {
               <CardContent>
                 <Accordion type="single" collapsible className="w-full">
                   {filterFaqs(faqsByCategory.general).map((faq, index) => (
-                    <AccordionItem key={index} value={general-${index}}>
+                    <AccordionItem key={index} value={`general-${index}`}>
                       <AccordionTrigger>{faq.question}</AccordionTrigger>
                       <AccordionContent>{faq.answer}</AccordionContent>
                     </AccordionItem>
@@ -165,7 +166,7 @@ const HelpCenter = () => {
               </CardContent>
             </Card>
           </TabsContent>
-
+          
           <TabsContent value="vendors">
             <Card>
               <CardHeader>
@@ -174,7 +175,7 @@ const HelpCenter = () => {
               <CardContent>
                 <Accordion type="single" collapsible className="w-full">
                   {filterFaqs(faqsByCategory.vendors).map((faq, index) => (
-                    <AccordionItem key={index} value={vendors-${index}}>
+                    <AccordionItem key={index} value={`vendors-${index}`}>
                       <AccordionTrigger>{faq.question}</AccordionTrigger>
                       <AccordionContent>{faq.answer}</AccordionContent>
                     </AccordionItem>
@@ -183,7 +184,7 @@ const HelpCenter = () => {
               </CardContent>
             </Card>
           </TabsContent>
-
+          
           <TabsContent value="bookings">
             <Card>
               <CardHeader>
@@ -192,7 +193,7 @@ const HelpCenter = () => {
               <CardContent>
                 <Accordion type="single" collapsible className="w-full">
                   {filterFaqs(faqsByCategory.bookings).map((faq, index) => (
-                    <AccordionItem key={index} value={bookings-${index}}>
+                    <AccordionItem key={index} value={`bookings-${index}`}>
                       <AccordionTrigger>{faq.question}</AccordionTrigger>
                       <AccordionContent>{faq.answer}</AccordionContent>
                     </AccordionItem>
@@ -201,7 +202,7 @@ const HelpCenter = () => {
               </CardContent>
             </Card>
           </TabsContent>
-
+          
           <TabsContent value="payments">
             <Card>
               <CardHeader>
@@ -210,7 +211,7 @@ const HelpCenter = () => {
               <CardContent>
                 <Accordion type="single" collapsible className="w-full">
                   {filterFaqs(faqsByCategory.payments).map((faq, index) => (
-                    <AccordionItem key={index} value={payments-${index}}>
+                    <AccordionItem key={index} value={`payments-${index}`}>
                       <AccordionTrigger>{faq.question}</AccordionTrigger>
                       <AccordionContent>{faq.answer}</AccordionContent>
                     </AccordionItem>
@@ -219,7 +220,7 @@ const HelpCenter = () => {
               </CardContent>
             </Card>
           </TabsContent>
-
+          
           <TabsContent value="support">
             <Card>
               <CardHeader>
@@ -228,7 +229,7 @@ const HelpCenter = () => {
               <CardContent>
                 <Accordion type="single" collapsible className="w-full">
                   {filterFaqs(faqsByCategory.support).map((faq, index) => (
-                    <AccordionItem key={index} value={support-${index}}>
+                    <AccordionItem key={index} value={`support-${index}`}>
                       <AccordionTrigger>{faq.question}</AccordionTrigger>
                       <AccordionContent>{faq.answer}</AccordionContent>
                     </AccordionItem>
@@ -238,7 +239,7 @@ const HelpCenter = () => {
             </Card>
           </TabsContent>
         </Tabs>
-
+        
         {/* Contact support section */}
         <div className="mt-12 text-center">
           <h2 className="text-xl font-semibold mb-4">Still need help?</h2>

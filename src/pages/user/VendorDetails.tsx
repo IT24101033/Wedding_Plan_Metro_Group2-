@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import UserLayout from "@/components/layouts/UserLayout";
@@ -10,7 +11,7 @@ import { motion } from "framer-motion";
 const VendorDetails = () => {
   const { id } = useParams();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-
+  
   // Mock vendor data
   const vendor = {
     id: parseInt(id || "1"),
@@ -103,7 +104,7 @@ const VendorDetails = () => {
         </div>
 
         {/* Vendor Header */}
-        <motion.div
+        <motion.div 
           className="mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -143,7 +144,7 @@ const VendorDetails = () => {
         </motion.div>
 
         {/* Photo Gallery */}
-        <motion.div
+        <motion.div 
           className="mb-12"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -151,24 +152,24 @@ const VendorDetails = () => {
         >
           <div className="grid grid-cols-1 gap-4">
             <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
-              <img
-                src={vendor.images[activeImageIndex]}
-                alt={vendor.name}
+              <img 
+                src={vendor.images[activeImageIndex]} 
+                alt={vendor.name} 
                 className="w-full h-[400px] object-cover"
               />
             </div>
             <div className="grid grid-cols-4 gap-4">
               {vendor.images.map((image, index) => (
-                <div
+                <div 
                   key={index}
                   className={`aspect-w-3 aspect-h-2 rounded-lg overflow-hidden cursor-pointer ${
                     index === activeImageIndex ? 'ring-2 ring-wedding-gold' : ''
                   }`}
                   onClick={() => setActiveImageIndex(index)}
                 >
-                  <img
-                    src={image}
-                    alt={`${vendor.name} ${index + 1}`}
+                  <img 
+                    src={image} 
+                    alt={`${vendor.name} ${index + 1}`} 
                     className="w-full h-24 object-cover"
                   />
                 </div>
@@ -190,7 +191,7 @@ const VendorDetails = () => {
               <TabsTrigger value="reviews">Reviews</TabsTrigger>
               <TabsTrigger value="faq">FAQ</TabsTrigger>
             </TabsList>
-
+            
             {/* Services Tab */}
             <TabsContent value="services" className="pt-6">
               <h2 className="text-2xl font-bold text-wedding-navy mb-6">Our Wedding Packages</h2>
@@ -210,7 +211,7 @@ const VendorDetails = () => {
                   </Card>
                 ))}
               </div>
-
+              
               <div className="bg-wedding-light p-6 rounded-lg">
                 <h3 className="text-lg font-semibold text-wedding-navy mb-4">What's Included</h3>
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
@@ -241,7 +242,7 @@ const VendorDetails = () => {
                 </ul>
               </div>
             </TabsContent>
-
+            
             {/* About Tab */}
             <TabsContent value="about" className="pt-6">
               <h2 className="text-2xl font-bold text-wedding-navy mb-6">About Us</h2>
@@ -289,9 +290,9 @@ const VendorDetails = () => {
                   </ul>
                 </div>
                 <div>
-                  <img
-                    src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                    alt="Our team"
+                  <img 
+                    src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                    alt="Our team" 
                     className="w-full h-80 object-cover rounded-lg mb-4"
                   />
                   <div className="bg-wedding-light p-6 rounded-lg">
@@ -303,7 +304,7 @@ const VendorDetails = () => {
                 </div>
               </div>
             </TabsContent>
-
+            
             {/* Reviews Tab */}
             <TabsContent value="reviews" className="pt-6">
               <div className="flex items-center justify-between mb-6">
@@ -314,7 +315,7 @@ const VendorDetails = () => {
                   <span className="text-gray-500 ml-1">({vendor.reviewCount} reviews)</span>
                 </div>
               </div>
-
+              
               <div className="space-y-6 mb-8">
                 {vendor.reviews.map((review) => (
                   <Card key={review.id}>
@@ -323,9 +324,9 @@ const VendorDetails = () => {
                         <h3 className="font-semibold text-wedding-navy">{review.name}</h3>
                         <div className="flex items-center">
                           {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`h-4 w-4 ${i < review.rating ? 'text-yellow-500 fill-current' : 'text-gray-300'}`}
+                            <Star 
+                              key={i} 
+                              className={`h-4 w-4 ${i < review.rating ? 'text-yellow-500 fill-current' : 'text-gray-300'}`} 
                             />
                           ))}
                         </div>
@@ -336,14 +337,14 @@ const VendorDetails = () => {
                   </Card>
                 ))}
               </div>
-
+              
               <div className="text-center">
                 <Button variant="outline" className="border-wedding-navy text-wedding-navy">
                   Show More Reviews
                 </Button>
               </div>
             </TabsContent>
-
+            
             {/* FAQ Tab */}
             <TabsContent value="faq" className="pt-6">
               <h2 className="text-2xl font-bold text-wedding-navy mb-6">Frequently Asked Questions</h2>
@@ -357,7 +358,7 @@ const VendorDetails = () => {
                   </Card>
                 ))}
               </div>
-
+              
               <div className="bg-wedding-light p-6 rounded-lg">
                 <h3 className="text-lg font-semibold text-wedding-navy mb-3">Have more questions?</h3>
                 <p className="text-gray-600 mb-4">We're happy to help! Contact us directly or schedule a consultation.</p>

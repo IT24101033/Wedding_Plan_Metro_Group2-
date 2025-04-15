@@ -1,3 +1,4 @@
+
 import React from "react";
 import UserLayout from "@/components/layouts/UserLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,7 +24,7 @@ const ContactUs = () => {
     <UserLayout>
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-wedding-navy mb-6">Contact Us</h1>
-
+        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <Card className="flex flex-col items-center p-6 text-center">
             <MapPin className="h-8 w-8 text-wedding-gold mb-4" />
@@ -34,7 +35,7 @@ const ContactUs = () => {
               San Francisco, CA 94107
             </p>
           </Card>
-
+          
           <Card className="flex flex-col items-center p-6 text-center">
             <Mail className="h-8 w-8 text-wedding-gold mb-4" />
             <h3 className="text-lg font-medium mb-2">Email Us</h3>
@@ -51,7 +52,7 @@ const ContactUs = () => {
               support@weddingvendorliaison.com
             </a>
           </Card>
-
+          
           <Card className="flex flex-col items-center p-6 text-center">
             <Phone className="h-8 w-8 text-wedding-gold mb-4" />
             <h3 className="text-lg font-medium mb-2">Call Us</h3>
@@ -69,7 +70,7 @@ const ContactUs = () => {
             </a>
           </Card>
         </div>
-
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <Card>
             <CardHeader>
@@ -87,29 +88,29 @@ const ContactUs = () => {
                     <Input id="lastName" placeholder="Enter your last name" required />
                   </div>
                 </div>
-
+                
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <Input id="email" type="email" placeholder="Enter your email" required />
                 </div>
-
+                
                 <div className="space-y-2">
                   <Label htmlFor="subject">Subject</Label>
                   <Input id="subject" placeholder="Enter subject" required />
                 </div>
-
+                
                 <div className="space-y-2">
                   <Label htmlFor="message">Message</Label>
                   <Textarea id="message" placeholder="Enter your message here" rows={5} required />
                 </div>
-
+                
                 <Button type="submit" className="w-full bg-wedding-navy hover:bg-wedding-navy/90">
                   Send Message
                 </Button>
               </form>
             </CardContent>
           </Card>
-
+          
           <Card>
             <CardHeader>
               <CardTitle>Business Hours</CardTitle>
@@ -124,7 +125,7 @@ const ContactUs = () => {
                   <p className="text-gray-600">Sunday: Closed</p>
                 </div>
               </div>
-
+              
               <div className="pt-4 border-t border-gray-200">
                 <h3 className="font-medium mb-2">Frequently Asked Questions</h3>
                 <ul className="space-y-2">
