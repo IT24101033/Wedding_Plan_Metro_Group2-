@@ -1,13 +1,14 @@
+
 import AdminLayout from "@/components/layouts/AdminLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Store,
-  CheckCircle,
-  XCircle,
-  Calendar,
-  UserCheck,
-  BarChart3,
+import { 
+  Store, 
+  CheckCircle, 
+  XCircle, 
+  Calendar, 
+  UserCheck, 
+  BarChart3, 
   Activity,
   ShoppingBag,
   DollarSign
@@ -23,7 +24,7 @@ const AdminDashboard = () => {
   // Get bookings data and toast
   const { bookings } = useBookings();
   const { toast } = useToast();
-
+  
   // State for dashboard stats
   const [totalBookings, setTotalBookings] = useState(0);
   const [confirmedBookings, setConfirmedBookings] = useState(0);
@@ -41,12 +42,12 @@ const AdminDashboard = () => {
   useEffect(() => {
     console.log('Bookings changed, updating dashboard...');
     updateDashboardStats();
-
+    
     // Show toast notification for booking updates
     if (bookings.length > 0) {
       toast({
         title: "Dashboard Updated",
-        description: Dashboard statistics refreshed with latest ${bookings.length} bookings.,
+        description: `Dashboard statistics refreshed with latest ${bookings.length} bookings.`,
       });
     }
   }, [bookings]);
@@ -57,7 +58,7 @@ const AdminDashboard = () => {
     setConfirmedBookings(bookings.filter(booking => booking.status === 'confirmed').length);
     setPendingBookings(bookings.filter(booking => booking.status === 'pending').length);
     setCompletedBookings(bookings.filter(booking => booking.status === 'completed').length);
-
+    
     // Calculate revenue from confirmed and completed bookings with paid status
     const revenue = bookings
       .filter(booking => booking.paymentStatus === 'paid')
@@ -76,7 +77,7 @@ const AdminDashboard = () => {
       }
     }
   };
-
+  
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
@@ -88,84 +89,84 @@ const AdminDashboard = () => {
   // Updated dashboard stats with real data
   const dashboardStats = [
     { title: "Total Vendors", value: "124", icon: <Store className="h-8 w-8 text-indigo-500" />, change: "+8 this month" },
-    {
-      title: "Total Bookings",
-      value: totalBookings.toString(),
-      icon: <Calendar className="h-8 w-8 text-green-500" />,
-      change: ${pendingBookings} pending approval
+    { 
+      title: "Total Bookings", 
+      value: totalBookings.toString(), 
+      icon: <Calendar className="h-8 w-8 text-green-500" />, 
+      change: `${pendingBookings} pending approval` 
     },
-    {
-      title: "Active Users",
-      value: "4,628",
-      icon: <UserCheck className="h-8 w-8 text-blue-500" />,
-      change: "+324 this month"
+    { 
+      title: "Active Users", 
+      value: "4,628", 
+      icon: <UserCheck className="h-8 w-8 text-blue-500" />, 
+      change: "+324 this month" 
     },
-    {
-      title: "Completed Bookings",
-      value: completedBookings.toString(),
-      icon: <CheckCircle className="h-8 w-8 text-yellow-500" />,
-      change: ${confirmedBookings} confirmed
+    { 
+      title: "Completed Bookings", 
+      value: completedBookings.toString(), 
+      icon: <CheckCircle className="h-8 w-8 text-yellow-500" />, 
+      change: `${confirmedBookings} confirmed` 
     }
   ];
 
   // Mock data for pending vendors
   const pendingVendors = [
-    {
-      id: 1,
-      name: "Luxury Events Venue",
-      category: "Venue",
-      submitted: "Sep 22, 2023",
+    { 
+      id: 1, 
+      name: "Luxury Events Venue", 
+      category: "Venue", 
+      submitted: "Sep 22, 2023", 
       status: "Pending Review"
     },
-    {
-      id: 2,
-      name: "Gourmet Delights Catering",
-      category: "Caterer",
-      submitted: "Sep 21, 2023",
+    { 
+      id: 2, 
+      name: "Gourmet Delights Catering", 
+      category: "Caterer", 
+      submitted: "Sep 21, 2023", 
       status: "Pending Review"
     },
-    {
-      id: 3,
-      name: "Elite DJ Services",
-      category: "Entertainment",
-      submitted: "Sep 20, 2023",
+    { 
+      id: 3, 
+      name: "Elite DJ Services", 
+      category: "Entertainment", 
+      submitted: "Sep 20, 2023", 
       status: "Pending Review"
     },
-    {
-      id: 4,
-      name: "Perfect Moments Photography",
-      category: "Photographer",
-      submitted: "Sep 19, 2023",
+    { 
+      id: 4, 
+      name: "Perfect Moments Photography", 
+      category: "Photographer", 
+      submitted: "Sep 19, 2023", 
       status: "Pending Review"
     }
   ];
 
   const recentActivity = [
-    {
-      id: 1,
-      action: "Vendor Approved",
-      details: "Floral Fantasy approved as Florist",
+    { 
+      id: 1, 
+      action: "Vendor Approved", 
+      details: "Floral Fantasy approved as Florist", 
       time: "2 hours ago",
       icon: <CheckCircle className="h-5 w-5 text-green-500" />
     },
-    {
-      id: 2,
-      action: "Vendor Rejected",
-      details: "Subpar Services rejected due to incomplete profile",
+    { 
+      id: 2, 
+      action: "Vendor Rejected", 
+      details: "Subpar Services rejected due to incomplete profile", 
       time: "5 hours ago",
       icon: <XCircle className="h-5 w-5 text-red-500" />
     },
-    {
-      id: 3,
-      action: "New Booking",
-      details: "Sarah & Michael booked Elegant Moments Photography",
+    { 
+      id: 3, 
+      action: "New Booking", 
+      details: "Sarah & Michael booked Elegant Moments Photography", 
       time: "Yesterday, 3:45 PM",
       icon: <Calendar className="h-5 w-5 text-blue-500" />
     },
-    {
-      id: 4,
-      action: "System Update",
-      details: "Platform maintenance completed successfully",
+    { 
+      id: 4, 
+      action: "System Update", 
+      details: "Platform maintenance completed successfully", 
       time: "Yesterday, 11:30 AM",
       icon: <Activity className="h-5 w-5 text-purple-500" />
     }
@@ -180,7 +181,7 @@ const AdminDashboard = () => {
       </section>
 
       {/* Dashboard Stats */}
-      <motion.section
+      <motion.section 
         className="mb-8"
         variants={containerVariants}
         initial="hidden"
@@ -207,7 +208,7 @@ const AdminDashboard = () => {
       </motion.section>
 
       {/* Price Calculator Section */}
-      <motion.section
+      <motion.section 
         className="mb-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -219,7 +220,7 @@ const AdminDashboard = () => {
       {/* Main Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
         {/* Pending Vendor Approvals */}
-        <motion.div
+        <motion.div 
           className="lg:col-span-2"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -268,7 +269,7 @@ const AdminDashboard = () => {
                   </tbody>
                 </table>
               </div>
-
+              
               <div className="mt-4 text-center">
                 <Link to="/admin/vendors">
                   <Button variant="link" className="text-wedding-navy">
@@ -281,7 +282,7 @@ const AdminDashboard = () => {
         </motion.div>
 
         {/* Recent Activity */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
@@ -306,7 +307,7 @@ const AdminDashboard = () => {
                   </li>
                 ))}
               </ul>
-
+              
               <div className="mt-4 text-center">
                 <Button variant="link" className="text-wedding-navy">
                   View All Activity
@@ -318,7 +319,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Platform Statistics */}
-      <motion.section
+      <motion.section 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.8 }}
@@ -343,7 +344,7 @@ const AdminDashboard = () => {
                     </div>
                   </div>
                 </div>
-
+                
                 <div className="flex items-center space-x-4">
                   <div className="p-3 rounded-full bg-green-100">
                     <ShoppingBag className="h-5 w-5 text-green-600" />
@@ -356,7 +357,7 @@ const AdminDashboard = () => {
                     </div>
                   </div>
                 </div>
-
+                
                 <div className="flex items-center space-x-4">
                   <div className="p-3 rounded-full bg-purple-100">
                     <DollarSign className="h-5 w-5 text-purple-600" />
@@ -370,7 +371,7 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               </div>
-
+              
               <div className="md:col-span-2">
                 <div className="space-y-4">
                   <div>
@@ -382,7 +383,7 @@ const AdminDashboard = () => {
                       <div className="bg-blue-500 h-2 rounded-full" style={{ width: "85%" }}></div>
                     </div>
                   </div>
-
+                  
                   <div>
                     <div className="flex justify-between mb-1">
                       <span className="text-sm font-medium text-gray-700">Vendor Retention</span>
@@ -392,7 +393,7 @@ const AdminDashboard = () => {
                       <div className="bg-green-500 h-2 rounded-full" style={{ width: "92%" }}></div>
                     </div>
                   </div>
-
+                  
                   <div>
                     <div className="flex justify-between mb-1">
                       <span className="text-sm font-medium text-gray-700">Booking Completion Rate</span>
@@ -402,7 +403,7 @@ const AdminDashboard = () => {
                       <div className="bg-yellow-500 h-2 rounded-full" style={{ width: "78%" }}></div>
                     </div>
                   </div>
-
+                  
                   <div>
                     <div className="flex justify-between mb-1">
                       <span className="text-sm font-medium text-gray-700">System Uptime</span>

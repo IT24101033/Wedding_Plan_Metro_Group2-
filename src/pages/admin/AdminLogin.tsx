@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,7 +17,7 @@ const AdminLogin = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
+  
   const navigate = useNavigate();
   const { login, isAuthenticated } = useAuth();
   const { toast } = useToast();
@@ -32,10 +33,10 @@ const AdminLogin = () => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
-
+    
     try {
       const success = await login(email, password, 'admin');
-
+      
       if (success) {
         toast({
           title: "Login successful",
@@ -55,7 +56,7 @@ const AdminLogin = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-wedding-light p-4">
-      <motion.div
+      <motion.div 
         className="w-full max-w-md"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -68,7 +69,7 @@ const AdminLogin = () => {
           </Link>
           <p className="mt-2 text-gray-600">Sign in to access the admin dashboard</p>
         </div>
-
+        
         <Card>
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold text-center">Administrator Login</CardTitle>
@@ -83,16 +84,16 @@ const AdminLogin = () => {
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-
+            
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">
                   <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <Input
-                    id="email"
+                  <Input 
+                    id="email" 
                     type="email"
-                    placeholder="admin@example.com"
+                    placeholder="admin@example.com" 
                     className="pl-9"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -109,18 +110,18 @@ const AdminLogin = () => {
                 </div>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <Input
-                    id="password"
-                    type="password"
+                  <Input 
+                    id="password" 
+                    type="password" 
                     className="pl-9"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    required
+                    required 
                   />
                 </div>
               </div>
-
-              <Button
+              
+              <Button 
                 type="submit"
                 className="w-full bg-wedding-navy hover:bg-wedding-navy/90"
                 disabled={isLoading}
@@ -130,7 +131,7 @@ const AdminLogin = () => {
             </form>
           </CardContent>
         </Card>
-
+        
         <div className="mt-8 text-center">
           <Link to="/" className="text-sm text-gray-600 hover:text-wedding-navy">
             Return to Wedding Vendor Liaison Home

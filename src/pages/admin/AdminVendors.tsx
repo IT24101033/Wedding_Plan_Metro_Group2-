@@ -1,3 +1,4 @@
+
 import React from 'react';
 import AdminLayout from '@/components/layouts/AdminLayout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -77,14 +78,14 @@ const AdminVendors = () => {
     <AdminLayout>
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-wedding-navy mb-6">Manage Vendors</h1>
-
+        
         <Tabs defaultValue="all" className="w-full">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <TabsList>
               <TabsTrigger value="all">All Vendors</TabsTrigger>
               <TabsTrigger value="applications">Pending Applications</TabsTrigger>
             </TabsList>
-
+            
             <div className="flex w-full sm:w-auto gap-2">
               <div className="relative flex-grow">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
@@ -105,7 +106,7 @@ const AdminVendors = () => {
               </Select>
             </div>
           </div>
-
+          
           <TabsContent value="all" className="mt-0">
             <Card>
               <CardContent className="p-0">
@@ -128,14 +129,14 @@ const AdminVendors = () => {
                         <TableCell>{vendor.location}</TableCell>
                         <TableCell>{vendor.joinDate}</TableCell>
                         <TableCell>
-                          <Badge
+                          <Badge 
                             className={
-                              vendor.status === 'active' ? 'bg-green-100 text-green-800' :
-                              vendor.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                              vendor.status === 'active' ? 'bg-green-100 text-green-800' : 
+                              vendor.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
                               'bg-red-100 text-red-800'
                             }
                           >
-                            {vendor.status === 'active' ? 'Active' :
+                            {vendor.status === 'active' ? 'Active' : 
                              vendor.status === 'pending' ? 'Pending' : 'Deactivated'}
                           </Badge>
                         </TableCell>
@@ -182,19 +183,19 @@ const AdminVendors = () => {
                                   </div>
                                   <div>
                                     <h3 className="text-sm font-medium text-gray-500">Status</h3>
-                                    <Badge
+                                    <Badge 
                                       className={
-                                        vendor.status === 'active' ? 'bg-green-100 text-green-800' :
-                                        vendor.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                        vendor.status === 'active' ? 'bg-green-100 text-green-800' : 
+                                        vendor.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
                                         'bg-red-100 text-red-800'
                                       }
                                     >
-                                      {vendor.status === 'active' ? 'Active' :
+                                      {vendor.status === 'active' ? 'Active' : 
                                        vendor.status === 'pending' ? 'Pending' : 'Deactivated'}
                                     </Badge>
                                   </div>
                                 </div>
-
+                                
                                 <div className="border-t pt-4 mt-4">
                                   <div className="flex justify-end space-x-2">
                                     {vendor.status === 'pending' && (
@@ -207,13 +208,13 @@ const AdminVendors = () => {
                                         </Button>
                                       </>
                                     )}
-
+                                    
                                     {vendor.status === 'active' && (
                                       <Button variant="outline" className="border-red-200 text-red-600 hover:bg-red-50">
                                         Deactivate
                                       </Button>
                                     )}
-
+                                    
                                     {vendor.status === 'deactivated' && (
                                       <Button className="bg-green-600 hover:bg-green-700">
                                         Reactivate
@@ -232,7 +233,7 @@ const AdminVendors = () => {
               </CardContent>
             </Card>
           </TabsContent>
-
+          
           <TabsContent value="applications" className="mt-0">
             <Card>
               <CardContent className="p-6">

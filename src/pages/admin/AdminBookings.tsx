@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '@/components/layouts/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,14 +6,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
+import { 
+  Table, 
+  TableBody, 
+  TableCaption, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow 
 } from '@/components/ui/table';
 import { Search, FileEdit, CheckCircle, XCircle } from 'lucide-react';
 import { useBookings, Booking } from '@/contexts/BookingContext';
@@ -28,26 +29,26 @@ const AdminBookings = () => {
   // Filter bookings based on search term and active tab
   useEffect(() => {
     let filtered = [...bookings];
-
+    
     // Filter by tab
     if (activeTab !== 'all') {
       filtered = filtered.filter(booking => booking.status === activeTab);
     }
-
+    
     // Filter by search term
     if (searchTerm.trim()) {
       const term = searchTerm.toLowerCase();
-      filtered = filtered.filter(booking =>
+      filtered = filtered.filter(booking => 
         booking.userName.toLowerCase().includes(term) ||
         booking.vendorName.toLowerCase().includes(term) ||
         booking.serviceName.toLowerCase().includes(term) ||
         booking.id.toLowerCase().includes(term)
       );
     }
-
+    
     // Sort by date (newest first)
     filtered.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
-
+    
     setFilteredBookings(filtered);
   }, [bookings, searchTerm, activeTab]);
 
@@ -56,7 +57,7 @@ const AdminBookings = () => {
     updateBooking(bookingId, { status: newStatus });
     toast({
       title: "Booking Updated",
-      description: Booking status changed to ${newStatus},
+      description: `Booking status changed to ${newStatus}`,
     });
   };
 
@@ -120,34 +121,34 @@ const AdminBookings = () => {
               </div>
 
               <TabsContent value="all" className="p-0">
-                <BookingsTable
+                <BookingsTable 
                   bookings={filteredBookings}
                   onStatusChange={handleStatusChange}
                   getStatusBadge={getStatusBadge}
                   getPaymentBadge={getPaymentBadge}
                 />
               </TabsContent>
-
+              
               <TabsContent value="pending" className="p-0">
-                <BookingsTable
+                <BookingsTable 
                   bookings={filteredBookings}
                   onStatusChange={handleStatusChange}
                   getStatusBadge={getStatusBadge}
                   getPaymentBadge={getPaymentBadge}
                 />
               </TabsContent>
-
+              
               <TabsContent value="confirmed" className="p-0">
-                <BookingsTable
+                <BookingsTable 
                   bookings={filteredBookings}
                   onStatusChange={handleStatusChange}
                   getStatusBadge={getStatusBadge}
                   getPaymentBadge={getPaymentBadge}
                 />
               </TabsContent>
-
+              
               <TabsContent value="completed" className="p-0">
-                <BookingsTable
+                <BookingsTable 
                   bookings={filteredBookings}
                   onStatusChange={handleStatusChange}
                   getStatusBadge={getStatusBadge}
@@ -169,8 +170,8 @@ interface BookingsTableProps {
   getPaymentBadge: (status: Booking['paymentStatus']) => React.ReactNode;
 }
 
-const BookingsTable: React.FC<BookingsTableProps> = ({
-  bookings,
+const BookingsTable: React.FC<BookingsTableProps> = ({ 
+  bookings, 
   onStatusChange,
   getStatusBadge,
   getPaymentBadge
@@ -187,9 +188,9 @@ const BookingsTable: React.FC<BookingsTableProps> = ({
     <div className="overflow-x-auto">
       <Table>
         <TableCaption>
-          {bookings.length === 0 ?
-            "No bookings found" :
-            Showing ${bookings.length} booking${bookings.length !== 1 ? 's' : ''}
+          {bookings.length === 0 ? 
+            "No bookings found" : 
+            `Showing ${bookings.length} booking${bookings.length !== 1 ? 's' : ''}`
           }
         </TableCaption>
         <TableHeader>
@@ -225,19 +226,19 @@ const BookingsTable: React.FC<BookingsTableProps> = ({
                 <TableCell>{getPaymentBadge(booking.paymentStatus)}</TableCell>
                 <TableCell>
                   <div className="flex items-center space-x-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="h-8 w-8 p-0"
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="h-8 w-8 p-0" 
                       title="Edit"
                     >
                       <FileEdit className="h-4 w-4" />
                     </Button>
                     {booking.status !== 'confirmed' && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="h-8 w-8 p-0 text-green-600"
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="h-8 w-8 p-0 text-green-600" 
                         title="Confirm"
                         onClick={() => onStatusChange(booking.id, 'confirmed')}
                       >
@@ -245,10 +246,10 @@ const BookingsTable: React.FC<BookingsTableProps> = ({
                       </Button>
                     )}
                     {booking.status !== 'cancelled' && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="h-8 w-8 p-0 text-red-600"
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="h-8 w-8 p-0 text-red-600" 
                         title="Cancel"
                         onClick={() => onStatusChange(booking.id, 'cancelled')}
                       >
