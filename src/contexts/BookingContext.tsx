@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import JavaBackendService from '@/services/JavaBackendService';
@@ -115,19 +116,19 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       if (storedBookings) {
         const parsedBookings = JSON.parse(storedBookings);
         console.log('Loading bookings from localStorage:', parsedBookings);
-
+        
         // Ensure all vendorIds follow consistent format (always prepend "vendor" if not already)
         const normalizedBookings = parsedBookings.map((booking: Booking) => {
           if (!booking.vendorId.startsWith('vendor')) {
-            console.log(Normalizing vendorId from ${booking.vendorId} to vendor${booking.vendorId});
+            console.log(`Normalizing vendorId from ${booking.vendorId} to vendor${booking.vendorId}`);
             return {
               ...booking,
-              vendorId: vendor${booking.vendorId}
+              vendorId: `vendor${booking.vendorId}`
             };
           }
           return booking;
         });
-
+        
         setBookings(normalizedBookings);
         // Also update localStorage with normalized bookings
         localStorage.setItem('wedding_app_bookings', JSON.stringify(normalizedBookings));
@@ -136,7 +137,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     } catch (e) {
       console.error('Error parsing stored bookings:', e);
     }
-
+    
     // If no bookings in localStorage or error parsing, use initial bookings
     console.log('Using initial bookings data');
     setBookings(INITIAL_BOOKINGS);
@@ -147,8 +148,8 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const toggleBackend = () => {
     setUseJavaBackend(!useJavaBackend);
     toast({
-      title: Backend Changed,
-      description: Now using ${!useJavaBackend ? 'Java backend' : 'local storage'} for bookings,
+      title: `Backend Changed`,
+      description: `Now using ${!useJavaBackend ? 'Java backend' : 'local storage'} for bookings`,
     });
   };
 
@@ -181,10 +182,10 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     // Ensure vendorId follows consistent format
     let vendorId = newBooking.vendorId;
     if (!vendorId.startsWith('vendor')) {
-      vendorId = vendor${vendorId};
-      console.log(Normalized vendorId in new booking from ${newBooking.vendorId} to ${vendorId});
+      vendorId = `vendor${vendorId}`;
+      console.log(`Normalized vendorId in new booking from ${newBooking.vendorId} to ${vendorId}`);
     }
-
+    
     const bookingWithVendorId = {
       ...newBooking,
       vendorId
@@ -205,39 +206,39 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       const now = new Date().toISOString();
       const tempBooking: Booking = {
         ...bookingWithVendorId,
-        id: booking${Date.now()},
+        id: `booking${Date.now()}`,
         createdAt: now,
         updatedAt: now
       };
-
+      
       toast({
         title: "Booking Created",
-        description: Booking for ${newBooking.serviceName} has been created.,
+        description: `Booking for ${newBooking.serviceName} has been created.`,
       });
-
+      
       return tempBooking;
     } else {
       // Use localStorage (original implementation)
       const now = new Date().toISOString();
       const bookingWithId: Booking = {
         ...bookingWithVendorId,
-        id: booking${Date.now()},
+        id: `booking${Date.now()}`,
         createdAt: now,
         updatedAt: now
       };
-
+      
       setBookings(prev => {
         const updatedBookings = [...prev, bookingWithId];
         console.log('Added new booking:', bookingWithId);
         console.log('Updated bookings state:', updatedBookings);
         return updatedBookings;
       });
-
+      
       toast({
         title: "Booking Created",
-        description: Booking for ${newBooking.serviceName} has been created.,
+        description: `Booking for ${newBooking.serviceName} has been created.`,
       });
-
+      
       return bookingWithId;
     }
   };
@@ -246,23 +247,23 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const updateBooking = (id: string, updates: Partial<Booking>) => {
     // Normalize vendorId if present in updates
     const normalizedUpdates = updates.vendorId && !updates.vendorId.startsWith('vendor')
-      ? { ...updates, vendorId: vendor${updates.vendorId} }
+      ? { ...updates, vendorId: `vendor${updates.vendorId}` }
       : updates;
 
     if (useJavaBackend) {
       // Use Java backend to update booking
       JavaBackendService.updateBooking(id, normalizedUpdates)
         .then(() => {
-          setBookings(prev => prev.map(booking =>
-            booking.id === id
-              ? {
-                  ...booking,
-                  ...normalizedUpdates,
-                  updatedAt: new Date().toISOString()
-                }
+          setBookings(prev => prev.map(booking => 
+            booking.id === id 
+              ? { 
+                  ...booking, 
+                  ...normalizedUpdates, 
+                  updatedAt: new Date().toISOString() 
+                } 
               : booking
           ));
-          console.log(Updated booking ${id} via Java backend:, normalizedUpdates);
+          console.log(`Updated booking ${id} via Java backend:`, normalizedUpdates);
         })
         .catch(error => {
           console.error('Error updating booking via Java backend:', error);
@@ -270,32 +271,32 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     } else {
       // Use localStorage (original implementation)
       setBookings(prev => {
-        const updatedBookings = prev.map(booking =>
-          booking.id === id
-            ? {
-                ...booking,
-                ...normalizedUpdates,
-                updatedAt: new Date().toISOString()
-              }
+        const updatedBookings = prev.map(booking => 
+          booking.id === id 
+            ? { 
+                ...booking, 
+                ...normalizedUpdates, 
+                updatedAt: new Date().toISOString() 
+              } 
             : booking
         );
-        console.log(Updated booking ${id}:, normalizedUpdates);
+        console.log(`Updated booking ${id}:`, normalizedUpdates);
         console.log('Updated bookings state:', updatedBookings);
         return updatedBookings;
       });
     }
-
+    
     toast({
       title: "Booking Updated",
-      description: Booking #${id} has been updated.,
+      description: `Booking #${id} has been updated.`,
     });
   };
 
   // Get bookings by user ID
   const getBookingsByUserId = (userId: string) => {
-    console.log(Fetching bookings for user ${userId} from total ${bookings.length} bookings);
+    console.log(`Fetching bookings for user ${userId} from total ${bookings.length} bookings`);
     const filtered = bookings.filter(booking => booking.userId === userId);
-    console.log(Found ${filtered.length} bookings for user ${userId}:, filtered);
+    console.log(`Found ${filtered.length} bookings for user ${userId}:`, filtered);
     return filtered;
   };
 
@@ -304,27 +305,27 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     // Ensure vendorId follows consistent format for lookup
     let lookupId = vendorId;
     if (!lookupId.startsWith('vendor')) {
-      lookupId = vendor${lookupId};
+      lookupId = `vendor${lookupId}`;
     }
-
-    console.log(Fetching bookings for vendor ${vendorId} (normalized: ${lookupId}) from total ${bookings.length} bookings);
-
+    
+    console.log(`Fetching bookings for vendor ${vendorId} (normalized: ${lookupId}) from total ${bookings.length} bookings`);
+    
     if (useJavaBackend) {
       // For Java backend, we would ideally fetch from the backend here
       // But for now, we'll just filter the existing bookings
       console.log('Using Java backend for vendor booking lookup');
     }
-
+    
     const filtered = bookings.filter(booking => booking.vendorId === lookupId);
-    console.log(Found ${filtered.length} bookings for vendor ${lookupId}:, filtered);
-
+    console.log(`Found ${filtered.length} bookings for vendor ${lookupId}:`, filtered);
+    
     if (filtered.length === 0) {
       // Log all bookings if nothing was found to help with debugging
       console.log('No bookings found. All bookings:', bookings);
       console.log('Looking for vendorId:', lookupId);
       console.log('All vendorIds:', bookings.map(b => b.vendorId));
     }
-
+    
     return filtered;
   };
 
@@ -334,12 +335,12 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   return (
-    <BookingContext.Provider value={{
-      bookings,
-      addBooking,
-      updateBooking,
-      getBookingsByUserId,
-      getBookingsByVendorId,
+    <BookingContext.Provider value={{ 
+      bookings, 
+      addBooking, 
+      updateBooking, 
+      getBookingsByUserId, 
+      getBookingsByVendorId, 
       getBookingById,
       refreshBookings,
       useJavaBackend,
