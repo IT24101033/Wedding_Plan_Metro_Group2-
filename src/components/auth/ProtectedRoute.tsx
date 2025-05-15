@@ -1,44 +1,54 @@
 
-
 import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { UserType } from '@/contexts/AuthContext';
 
 interface ProtectedRouteProps {
-    children: React.ReactNode;
-    requiredType?: UserType;
+  children: React.ReactNode;
+  requiredType: 'user' | 'vendor' | 'admin';
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
-                                                           children,
-                                                           requiredType
-                                                       }) => {
-    const { isAuthenticated, loading } = useAuth();
-    const location = useLocation();
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredType }) => {
+  const { currentUser, isLoading } = useAuth();
 
-    // Show loading state while checking authentication
-    if (loading) {
-        return <div className="flex items-center justify-center h-screen">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-wedding-navy"></div>
-        </div>;
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (!currentUser) {
+    // User not logged in, redirect to appropriate login page
+    switch (requiredType) {
+      case 'user':
+        return <Navigate to="/user/login" replace />;
+      case 'vendor':
+        return <Navigate to="/vendor/login" replace />;
+      case 'admin':
+        return <Navigate to="/admin/login" replace />;
+      default:
+        return <Navigate to="/user/login" replace />;
     }
+  }
 
-    // If not authenticated or wrong user type, redirect to login
-    if (!isAuthenticated(requiredType)) {
-        // Redirect to the appropriate login page based on the required type
-        let loginPath = "/user/login";
-        if (requiredType === "vendor") {
-            loginPath = "/vendor/login";
-        } else if (requiredType === "admin") {
-            loginPath = "/admin/login";
-        }
-
-        return <Navigate to={loginPath} state={{ from: location }} replace />;
+  // Check if user has the required role
+  if (currentUser.role !== requiredType) {
+    // User does not have the right role, redirect to appropriate home page
+    switch (currentUser.role) {
+      case 'user':
+        return <Navigate to="/user" replace />;
+      case 'vendor':
+        return <Navigate to="/vendor/dashboard" replace />;
+      case 'admin':
+        return <Navigate to="/admin/dashboard" replace />;
+      default:
+        return <Navigate to="/" replace />;
     }
+  }
 
-    // If authenticated with the correct type, render the children
-    return <>{children}</>;
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;
