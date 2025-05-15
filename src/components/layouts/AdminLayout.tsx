@@ -1,235 +1,145 @@
 
-
-import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import React from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
 import {
-    Shield,
-    LayoutDashboard,
-    Users,
-    Calendar,
-    Settings,
-    LogOut,
-    Menu,
-    X,
-    Bell
-} from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
-import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Home, Calendar, User, Settings } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [notifications, setNotifications] = useState<string[]>([]);
-    const [newNotifications, setNewNotifications] = useState(0);
-
-    const location = useLocation();
-    const navigate = useNavigate();
-    const { user, logout, isAuthenticated } = useAuth();
-    const { toast } = useToast();
-
-    const isActive = (path: string) => {
-        return location.pathname === path;
-    };
-
-    // Check authentication
-    useEffect(() => {
-        if (!isAuthenticated('admin')) {
-            navigate('/admin/login');
-        }
-    }, [isAuthenticated, navigate]);
-
-    // Simulate real-time updates
-    useEffect(() => {
-        const randomNotifications = [
-            "New vendor registered: Jane's Catering Service",
-            "Price change alert: Premier Venues increased rates by 5%",
-            "New booking request: Wedding ceremony on June 15, 2023",
-            "Support ticket opened: Payment issue with booking #1234",
-            "System alert: Backup completed successfully"
-        ];
-
-        // Initial notifications
-        setNotifications(randomNotifications.slice(0, 3));
-
-        // Simulate real-time updates
-        const interval = setInterval(() => {
-            const randomIndex = Math.floor(Math.random() * randomNotifications.length);
-            const newNotification = randomNotifications[randomIndex];
-
-            setNotifications(prev => [newNotification, ...prev.slice(0, 4)]);
-            setNewNotifications(prev => prev + 1);
-
-            toast({
-                title: "New Update",
-                description: newNotification,
-            });
-        }, 60000); // Every minute
-
-        return () => clearInterval(interval);
-    }, [toast]);
-
-    const handleLogout = () => {
-        logout();
-        navigate('/admin/login');
-    };
-
-    const handleClearNotifications = () => {
-        setNewNotifications(0);
-    };
-
-    return (
-        <div className="min-h-screen flex flex-col bg-gray-50">
-            {/* Header/Navigation */}
-            <header className="bg-wedding-navy shadow-md">
-                <div className="wedding-container py-4">
-                    <div className="flex justify-between items-center">
-                        {/* Logo and brand */}
-                        <Link to="/admin/dashboard" className="flex items-center space-x-2">
-                            <Shield className="h-6 w-6 text-wedding-gold" />
-                            <span className="text-2xl font-display font-semibold text-white">Admin Dashboard</span>
-                        </Link>
-
-                        {/* Desktop Navigation */}
-                        <nav className="hidden md:flex items-center space-x-8">
-                            <Link
-                                to="/admin/dashboard"
-                                className={`text-gray-300 hover:text-white transition-colors ${
-                                    isActive('/admin/dashboard') ? 'font-semibold text-white' : ''
-                                }`}
-                            >
-                                Dashboard
-                            </Link>
-                            <Link
-                                to="/admin/vendors"
-                                className={`text-gray-300 hover:text-white transition-colors ${
-                                    isActive('/admin/vendors') ? 'font-semibold text-white' : ''
-                                }`}
-                            >
-                                Vendors
-                            </Link>
-                            <Link
-                                to="/admin/bookings"
-                                className={`text-gray-300 hover:text-white transition-colors ${
-                                    isActive('/admin/bookings') ? 'font-semibold text-white' : ''
-                                }`}
-                            >
-                                Bookings
-                            </Link>
-                            <div className="relative" onClick={handleClearNotifications}>
-                                <Bell className="h-5 w-5 text-gray-300 hover:text-white cursor-pointer" />
-                                {newNotifications > 0 && (
-                                    <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-red-500">
-                                        {newNotifications}
-                                    </Badge>
-                                )}
-                            </div>
-                            <Button className="bg-wedding-gold text-white hover:bg-wedding-gold/90" onClick={handleLogout}>
-                                <LogOut className="h-4 w-4 mr-2" /> Logout
-                            </Button>
-                        </nav>
-
-                        {/* Mobile menu button */}
-                        <div className="md:hidden">
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                                className="text-white hover:bg-wedding-navy/80"
-                            >
-                                {isMobileMenuOpen ? (
-                                    <X className="h-6 w-6" />
-                                ) : (
-                                    <Menu className="h-6 w-6" />
-                                )}
-                            </Button>
-                        </div>
-                    </div>
-
-                    {/* Mobile Navigation */}
-                    {isMobileMenuOpen && (
-                        <div className="md:hidden mt-4 pb-4">
-                            <nav className="flex flex-col space-y-4">
-                                <Link
-                                    to="/admin/dashboard"
-                                    className={`text-gray-300 hover:text-white transition-colors ${
-                                        isActive('/admin/dashboard') ? 'font-semibold text-white' : ''
-                                    }`}
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    Dashboard
-                                </Link>
-                                <Link
-                                    to="/admin/vendors"
-                                    className={`text-gray-300 hover:text-white transition-colors ${
-                                        isActive('/admin/vendors') ? 'font-semibold text-white' : ''
-                                    }`}
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    Vendors
-                                </Link>
-                                <Link
-                                    to="/admin/bookings"
-                                    className={`text-gray-300 hover:text-white transition-colors ${
-                                        isActive('/admin/bookings') ? 'font-semibold text-white' : ''
-                                    }`}
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    Bookings
-                                </Link>
-                                <div className="flex items-center space-x-2" onClick={handleClearNotifications}>
-                                    <Bell className="h-5 w-5 text-gray-300" />
-                                    <span className="text-gray-300">Notifications</span>
-                                    {newNotifications > 0 && (
-                                        <Badge className="bg-red-500">{newNotifications}</Badge>
-                                    )}
-                                </div>
-                                <Button className="bg-wedding-gold text-white hover:bg-wedding-gold/90 w-full" onClick={handleLogout}>
-                                    <LogOut className="h-4 w-4 mr-2" /> Logout
-                                </Button>
-                            </nav>
-                        </div>
-                    )}
-                </div>
-            </header>
-
-            {/* User welcome and notifications */}
-            {user && (
-                <div className="bg-gray-100 border-b">
-                    <div className="wedding-container py-3">
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                            <div>
-                                <h2 className="text-lg font-medium">Welcome, {user.name}</h2>
-                                <p className="text-sm text-gray-600">Access level: Administrator</p>
-                            </div>
-
-                            {notifications.length > 0 && (
-                                <div className="mt-3 md:mt-0 text-sm max-w-md">
-                                    <div className="flex items-center">
-                                        <Bell className="h-4 w-4 text-wedding-gold mr-2" />
-                                        <span className="font-medium">Latest update:</span>
-                                    </div>
-                                    <p className="text-gray-600 truncate">{notifications[0]}</p>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Main Content */}
-            <main className="flex-grow p-6">
-                <div className="wedding-container">
-                    {children}
-                </div>
-            </main>
-
-            {/* Footer */}
-            <footer className="bg-wedding-navy text-white py-4 border-t border-gray-700">
-                <div className="wedding-container text-center">
-                    <p>© 2023 Wedding Vendor Liaison Admin Portal. All rights reserved.</p>
-                </div>
-            </footer>
-        </div>
-    );
+interface AdminLayoutProps {
+  children: React.ReactNode;
 }
+
+const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
+  const { currentUser, logout } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/admin/login');
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <header className="border-b bg-white">
+        <div className="container flex h-16 items-center justify-between">
+          <div className="flex items-center">
+            <Link to="/" className="text-xl font-bold text-primary">WeddingMatch</Link>
+            <span className="ml-2 text-xs bg-primary-600 text-white px-2 py-0.5 rounded">Admin</span>
+            <nav className="hidden md:flex items-center space-x-4 ml-8">
+              <Link 
+                to="/admin/dashboard" 
+                className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                  isActive('/admin/dashboard') 
+                    ? 'bg-primary/10 text-primary' 
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                }`}
+              >
+                <Home className="h-4 w-4 mr-2 inline-block" />
+                Dashboard
+              </Link>
+              <Link 
+                to="/admin/vendors" 
+                className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                  isActive('/admin/vendors') 
+                    ? 'bg-primary/10 text-primary' 
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                }`}
+              >
+                <User className="h-4 w-4 mr-2 inline-block" />
+                Vendors
+              </Link>
+              <Link 
+                to="/admin/bookings" 
+                className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                  isActive('/admin/bookings') 
+                    ? 'bg-primary/10 text-primary' 
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                }`}
+              >
+                <Calendar className="h-4 w-4 mr-2 inline-block" />
+                Bookings
+              </Link>
+              <Link 
+                to="/admin/settings" 
+                className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                  isActive('/admin/settings') 
+                    ? 'bg-primary/10 text-primary' 
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                }`}
+              >
+                <Settings className="h-4 w-4 mr-2 inline-block" />
+                Settings
+              </Link>
+            </nav>
+          </div>
+          
+          <div className="flex items-center gap-4">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src="/placeholder-avatar.jpg" alt={currentUser?.name || 'Admin'} />
+                    <AvatarFallback>
+                      {currentUser?.name?.charAt(0) || 'A'}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{currentUser?.name || 'System Administrator'}</p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      {currentUser?.email || 'admin@example.com'}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate('/admin/dashboard')}>
+                  <Home className="mr-2 h-4 w-4" />
+                  <span>Dashboard</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate('/admin/settings')}>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout}>
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+      </header>
+      
+      <main className="flex-1">
+        {children}
+      </main>
+      
+      <footer className="border-t py-6 md:py-0">
+        <div className="container flex flex-col md:h-16 items-center justify-between gap-4 md:flex-row">
+          <p className="text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} WeddingMatch Admin Portal. All rights reserved.
+          </p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default AdminLayout;
